@@ -4,13 +4,13 @@ import java.util.Map;
 public class WorldMap {
     private Map<Coordinate, Entity> worldMap = new HashMap<>();
 
-    public void addEntity(Coordinate coordinate, Entity entity) {
-        worldMap.put(coordinate, entity);
+    public void addEntity(Map<Coordinate, Entity> entityMap) {
+        worldMap.putAll(entityMap);
     }
-    public void checkEntity() {
-
+    public void checkEntity(Coordinate coordinate, Entity entity) {
+        worldMap.get(coordinate) instanceof entity.getClass();
     }
-    public void removeEntity () {
+    public void removeEntity (Coordinate coordinate) {
 
     }
 }
