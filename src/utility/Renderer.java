@@ -1,3 +1,5 @@
+package utility;
+
 import utility.Coordinate;
 import entities.Entity;
 

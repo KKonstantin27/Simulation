@@ -37,4 +37,8 @@ public class Herbivore extends Creature {
         }
         return herbivoreMap;
     }
+
+    public static Map<Coordinate, Entity> getHerbivoreMap() { // УБРАТЬ ПОТОМ!!!!!!!!!!!!!!
+        return herbivoreMap;
+    }
 }
