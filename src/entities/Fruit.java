@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Fruit extends Entity {
+    public static final int MAX_FRUITS = 10;
     public static int fruitsCounter = -1;
     private Random random = new Random();
     private String fruit;
