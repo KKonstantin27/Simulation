@@ -21,7 +21,11 @@ public class Action {
     }
     public void initActiveEntities() {
         Fruit fruit = new Fruit();
+        Herbivore herbivore = new Herbivore();
+        Predator predator = new Predator();
 
         WorldMap.addEntity(fruit.createEntity());
+        WorldMap.addEntity(herbivore.createEntity());
+        WorldMap.addEntity(predator.createEntity());
     }
 }
