@@ -1,3 +1,7 @@
+package entities;
+
+import utility.Coordinate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,8 +12,7 @@ public class Border extends Entity {
     public String toString() {
         return border;
     }
-    Map<Coordinate, Entity> borderMap = new HashMap<>();
-
+    private static Map<Coordinate, Entity> borderMap = new HashMap<>();
     @Override
     public Map<Coordinate, Entity> createEntity() {
         for (int i = 0; i < Coordinate.MAX_X; i++) {

@@ -1,3 +1,7 @@
+package entities;
+
+import utility.Coordinate;
+
 import java.util.Map;
 
 public abstract class Entity {
