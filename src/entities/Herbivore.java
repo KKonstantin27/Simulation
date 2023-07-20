@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Herbivore extends Creature {
-    public static final int MAX_HERBIVORES = 2;
+    public static final int MAX_HERBIVORES = 4;
     public static int herbivoresCounter = -1;
     private String herbivore = "\uD83D\uDC2D";
     private static Map<Coordinate, Entity> herbivoreMap = new HashMap<>();
@@ -34,9 +34,9 @@ public class Herbivore extends Creature {
     @Override
     public Map<Coordinate, Entity> createEntity() {
         Coordinate randomCoordinate;
-        while (herbivoresCounter < 2) {
+        while (herbivoresCounter < MAX_HERBIVORES) {
             randomCoordinate = Coordinate.getRandomFreeCoordinate();
-            herbivoreMap.put(randomCoordinate, new Herbivore());
+            herbivoreMap.put(new Coordinate(10, 15), new Herbivore());
         }
         return herbivoreMap;
     }

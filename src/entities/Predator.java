@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Predator extends Creature {
-    public static final int MAX_PREDATORS = 1;
+    public static final int MAX_PREDATORS = 2;
     public static int predatorsCounter = -1;
     private String predator = "\uD83D\uDC31";
     private int attackPower;
@@ -16,12 +16,13 @@ public class Predator extends Creature {
 
     public Predator(int hp) {
         super(hp, 2);
-        attackPower = 10;
+        this.attackPower = 10;
         predatorsCounter++;
     }
 
     public Predator() {
         super(40, 2);
+        this.attackPower = 10;
         predatorsCounter++;
     }
 

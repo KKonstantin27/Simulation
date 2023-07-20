@@ -62,9 +62,14 @@ public abstract class Creature extends Entity {
         } else if (worldMap.get(pathToFood.peek()) instanceof Fruit && this instanceof Herbivore) {
             eat(coordinate, targetCoordinate);
         } else if (worldMap.get(pathToFood.peek()) instanceof Herbivore && this instanceof Predator) {
-
+            eat(coordinate, targetCoordinate);
         } else if (coordinate.equals(targetCoordinate)) {
-            return;
+            WorldMap.removeEntity(coordinate);
+            if (this instanceof Herbivore) {
+                WorldMap.addEntity(pathToFood.pop(), new Herbivore(hp));
+            } else if (this instanceof Predator) {
+                WorldMap.addEntity(pathToFood.pop(), new Predator(hp));
+            }
         }
     }
     public void buildPathToFood(Coordinate coordinate) {
