@@ -44,6 +44,10 @@ public abstract class Creature extends Entity {
                 }
             }
         }
+        if (targetCoordinate == null && searchQueue.isEmpty()) {
+            targetCoordinate = coordinate;
+            return;
+        }
         findFood(searchQueue.poll());
     }
     public void makeMove(Coordinate coordinate) {
@@ -59,17 +63,26 @@ public abstract class Creature extends Entity {
             eat(coordinate, targetCoordinate);
         } else if (worldMap.get(pathToFood.peek()) instanceof Herbivore && this instanceof Predator) {
 
+        } else if (coordinate.equals(targetCoordinate)) {
+            return;
         }
     }
     public void buildPathToFood(Coordinate coordinate) {
         Coordinate startCoordinate = coordinate;
         pathToFood.add(targetCoordinate);
+        if (previousCoordinate.isEmpty()) {
+            return;
+        }
         Coordinate nextCoordinate = previousCoordinate.get(targetCoordinate);
         while (!(nextCoordinate.equals(startCoordinate))) {
             pathToFood.add(nextCoordinate);
             nextCoordinate = previousCoordinate.get(nextCoordinate);
         }
         System.out.println(pathToFood);
+    }
+
+    public static void removeCreatureFromMap(Coordinate coordinate) {
+        creatureMap.remove(coordinate);
     }
 
     public static void updateCreatureMap() {
@@ -85,5 +98,13 @@ public abstract class Creature extends Entity {
 
     public static Map<Coordinate, Entity> getCreatureMap() {
         return creatureMap;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

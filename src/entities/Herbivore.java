@@ -51,4 +51,7 @@ public class Herbivore extends Creature {
         WorldMap.removeEntity(targetCoordinate);
         WorldMap.addEntity(targetCoordinate, new Herbivore());
     }
+    public void reduceHP (int attackPower) {
+        setHp(getHp() - attackPower);
+    }
 }

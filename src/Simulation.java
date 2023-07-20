@@ -1,5 +1,3 @@
-import entities.Creature;
-import entities.Fruit;
 import utility.Action;
 
 public class Simulation {
