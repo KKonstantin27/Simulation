@@ -1,6 +1,7 @@
 package entities;
 
 import utility.Coordinate;
+import utility.Renderer;
 import utility.WorldMap;
 
 import java.util.*;
@@ -9,7 +10,8 @@ public abstract class Creature extends Entity {
     private int hp;
     private int speed;
     private Coordinate targetCoordinate;
-    private static Map<Coordinate, Entity> creatureMap = new HashMap<>();
+    private static List<Entity> creatureList = new ArrayList<>();
+    private static List<Coordinate> coordinateList = new ArrayList<>();
     private Queue<Coordinate> searchQueue = new LinkedList<>();
     private Set<Coordinate> visitedCoordinates = new HashSet<>();
     private Map<Coordinate, Coordinate> previousCoordinate = new HashMap<>();
@@ -21,6 +23,9 @@ public abstract class Creature extends Entity {
         this.speed = speed;
     }
     public void findFood(Coordinate coordinate) {
+        if (targetCoordinate != null) {
+            clearMemory();
+        }
         visitedCoordinates.add(coordinate);
         int x = coordinate.getX();
         int y = coordinate.getY();
@@ -33,7 +38,6 @@ public abstract class Creature extends Entity {
                             (worldMap.get(checkCoordinate) instanceof Herbivore && this instanceof Predator)) {
                         targetCoordinate = checkCoordinate;
                         previousCoordinate.put(checkCoordinate, coordinate);
-                        System.out.println(targetCoordinate);
                         return;
                     } else if (worldMap.get(checkCoordinate) instanceof Ground
                             && !(visitedCoordinates.contains(checkCoordinate))
@@ -55,14 +59,18 @@ public abstract class Creature extends Entity {
         if (worldMap.get(pathToFood.peek()) instanceof Ground) {
             WorldMap.removeEntity(coordinate);
             if (this instanceof Herbivore) {
-                WorldMap.addEntity(pathToFood.pop(), new Herbivore(hp));
+                WorldMap.addEntity(pathToFood.peek(), new Herbivore(hp));
+                updateCoordinate(coordinate, pathToFood.pop());
             } else if (this instanceof Predator) {
-                WorldMap.addEntity(pathToFood.pop(), new Predator(hp));
+                WorldMap.addEntity(pathToFood.peek(), new Predator(hp));
+                updateCoordinate(coordinate, pathToFood.pop());
             }
         } else if (worldMap.get(pathToFood.peek()) instanceof Fruit && this instanceof Herbivore) {
             eat(coordinate, targetCoordinate);
+            updateCoordinate(coordinate, targetCoordinate);
         } else if (worldMap.get(pathToFood.peek()) instanceof Herbivore && this instanceof Predator) {
             eat(coordinate, targetCoordinate);
+            updateCoordinate(coordinate, targetCoordinate);
         } else if (coordinate.equals(targetCoordinate)) {
             WorldMap.removeEntity(coordinate);
             if (this instanceof Herbivore) {
@@ -72,41 +80,66 @@ public abstract class Creature extends Entity {
             }
         }
     }
-    public void buildPathToFood(Coordinate coordinate) {
+    private void buildPathToFood(Coordinate coordinate) {
         Coordinate startCoordinate = coordinate;
         pathToFood.add(targetCoordinate);
         if (previousCoordinate.isEmpty()) {
             return;
         }
         Coordinate nextCoordinate = previousCoordinate.get(targetCoordinate);
+
         while (!(nextCoordinate.equals(startCoordinate))) {
             pathToFood.add(nextCoordinate);
             nextCoordinate = previousCoordinate.get(nextCoordinate);
         }
-        System.out.println(pathToFood);
+    }
+    public static void removeCreatureFromList(Coordinate coordinate) {
+        int idx = Creature.coordinateList.indexOf(coordinate);
+        creatureList.set(idx, null);
+        coordinateList.set(idx, null);
+    }
+    private void updateCoordinate(Coordinate prevCoordinate, Coordinate curCoordinate) {
+        int idx = coordinateList.indexOf(prevCoordinate);
+        coordinateList.set(idx, curCoordinate);
     }
 
-    public static void removeCreatureFromMap(Coordinate coordinate) {
-        creatureMap.remove(coordinate);
-    }
-
-    public static void updateCreatureMap() {
-        creatureMap.clear();
+    public static void updateCreatureList() {
+        creatureList.clear();
+        coordinateList.clear();
+        int idx = 0;
         for (Map.Entry<Coordinate, Entity> entry : WorldMap.getWorldMap().entrySet()) {
             if (entry.getValue() instanceof Herbivore || entry.getValue() instanceof Predator) {
-                creatureMap.put(entry.getKey(), entry.getValue());
+                creatureList.add(idx, entry.getValue());
+                coordinateList.add(idx, entry.getKey());
+                idx++;
             }
         }
-        System.out.println(creatureMap);
     }
+
+    private void clearMemory() {
+        targetCoordinate = null;
+        pathToFood.clear();
+        previousCoordinate.clear();
+        visitedCoordinates.clear();
+        searchQueue.clear();
+    }
+
     public abstract void eat(Coordinate coordinate, Coordinate targetCoordinate);
 
-    public static Map<Coordinate, Entity> getCreatureMap() {
-        return creatureMap;
+    public static List<Entity> getCreatureList() {
+        return creatureList;
+    }
+
+    public static List<Coordinate> getCoordinateList() {
+        return coordinateList;
     }
 
     public int getHp() {
         return hp;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public void setHp(int hp) {

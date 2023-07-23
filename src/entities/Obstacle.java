@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Obstacle extends Entity {
-    private static final int MAX_OBSTACLES = 3;
+    private static final int MAX_OBSTACLES = 20;
     public static int obstaclesCounter = -1;
     private String obstacle;
     private static Map<Coordinate, Entity> obstacleMap = new HashMap<>();
@@ -36,8 +36,6 @@ public class Obstacle extends Entity {
         while (obstaclesCounter < MAX_OBSTACLES){
             randomCoordinate = Coordinate.getRandomFreeCoordinate();
             obstacleMap.put(randomCoordinate, new Obstacle());
-//            obstacleMap.put(new Coordinate(9, 14), new Obstacle());
-//            obstacleMap.put(new Coordinate(10, 13), new Obstacle());
         }
         return obstacleMap;
     }

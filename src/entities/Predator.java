@@ -5,7 +5,7 @@ import utility.WorldMap;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
+
 
 public class Predator extends Creature {
     public static final int MAX_PREDATORS = 2;
@@ -52,7 +52,7 @@ public class Predator extends Creature {
         if (prey.getHp() <= attackPower) {
             WorldMap.removeEntity(coordinate);
             WorldMap.removeEntity(targetCoordinate);
-            Creature.removeCreatureFromMap(targetCoordinate);
+            Creature.removeCreatureFromList(targetCoordinate);
             WorldMap.addEntity(targetCoordinate, new Predator());
         } else {
             prey.reduceHP(attackPower);

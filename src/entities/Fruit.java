@@ -32,7 +32,7 @@ public class Fruit extends Entity {
     @Override
     public Map<Coordinate, Entity> createEntity() {
         Coordinate randomCoordinate;
-        while (fruitsCounter < 10) {
+        while (fruitsCounter < MAX_FRUITS) {
             randomCoordinate = Coordinate.getRandomFreeCoordinate();
             fruitMap.put(randomCoordinate, new Fruit());
         }

@@ -22,7 +22,7 @@ public class Herbivore extends Creature {
         herbivoresCounter++;
     }
     public Herbivore() {
-        super(20, 1);
+        super(10, 1);
         herbivoresCounter++;
     }
 
@@ -36,7 +36,7 @@ public class Herbivore extends Creature {
         Coordinate randomCoordinate;
         while (herbivoresCounter < MAX_HERBIVORES) {
             randomCoordinate = Coordinate.getRandomFreeCoordinate();
-            herbivoreMap.put(new Coordinate(10, 15), new Herbivore());
+            herbivoreMap.put(randomCoordinate, new Herbivore());
         }
         return herbivoreMap;
     }

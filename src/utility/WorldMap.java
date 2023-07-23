@@ -14,7 +14,7 @@ public class WorldMap {
     }
     public static void addEntity(Coordinate coordinate, Entity entity) {
         worldMap.put(coordinate, entity);
-        System.out.println(worldMap);
+
     }
 
     public static void removeEntity (Coordinate coordinate) {
